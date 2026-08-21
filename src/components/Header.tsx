@@ -232,14 +232,6 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Track Order</span>
             </button>
             <span className="text-slate-600">|</span>
-            <button 
-              onClick={onOpenCheckerModal}
-              className="flex items-center gap-1 hover:text-emerald-400 transition-colors text-xs font-medium cursor-pointer"
-            >
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-              Free PVA Checker Tool
-            </button>
-            <span className="text-slate-600">|</span>
             <div className="flex items-center gap-2 text-slate-400 text-xs">
               <Headphones className="w-3.5 h-3.5 text-blue-400" />
               <span>24/7 Live Support: </span>
@@ -535,17 +527,6 @@ export const Header: React.FC<HeaderProps> = ({
                 <Zap className="w-4 h-4 fill-current text-amber-300" />
                 <span>Order Accounts Now</span>
                 <ArrowRight className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenCheckerModal();
-                }}
-                className="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 text-sm"
-              >
-                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-                <span>Free PVA Format Checker</span>
               </button>
             </div>
           </div>

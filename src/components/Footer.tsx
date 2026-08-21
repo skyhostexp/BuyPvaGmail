@@ -202,24 +202,32 @@ export const Footer: React.FC<FooterProps> = ({
             </p>
             <div className="space-y-2 text-xs text-slate-300 font-medium">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                <span>USDT (TRC20) • Instant / $0.5 Fee</span>
-              </div>
-              <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-yellow-400" />
-                <span>USDT (BEP20 / BSC) • Fast</span>
+                <span>BSC (BEP20 / BNB / USDT)</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-blue-400" />
-                <span>USDT (ERC20 / Ethereum)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-amber-500" />
-                <span>Bitcoin (BTC)</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span>TRX (TRC20 / TRON / USDT)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-indigo-400" />
-                <span>Litecoin (LTC) • Ultra Low Fee</span>
+                <span>ETH (ERC20 / Ethereum)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-purple-400" />
+                <span>SOL (Solana Mainnet)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
+                <span>BTC (Bitcoin)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-400" />
+                <span>LTC (Litecoin)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400" />
+                <span>DOGE (Dogecoin)</span>
               </div>
             </div>
           </div>

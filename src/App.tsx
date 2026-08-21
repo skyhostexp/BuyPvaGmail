@@ -64,72 +64,81 @@ export default function App() {
   // Clean URL and View Synchronization without '#' hashes
   useEffect(() => {
     const handleUrlRouting = () => {
-      const searchParams = new URLSearchParams(window.location.search);
-      const viewParam = searchParams.get('view');
-      const serviceParam = searchParams.get('service');
-      const rawHash = window.location.hash.replace('#', '').trim();
+      try {
+        const searchParams = new URLSearchParams(window.location.search);
+        const viewParam = searchParams.get('view');
+        const serviceParam = searchParams.get('service');
+        const rawHash = (window.location.hash || '').replace('#', '').trim();
 
-      // Clean up any remaining '#' from the address bar if present
-      if (window.location.hash) {
-        window.history.replaceState(null, '', window.location.pathname + window.location.search);
-      }
+        // Clean up any remaining '#' from the address bar if present
+        if (window.location.hash) {
+          try {
+            window.history.replaceState(null, '', window.location.pathname + window.location.search);
+          } catch {
+            // Ignore iframe security error
+          }
+        }
 
-      if (viewParam === 'service-detail' && serviceParam) {
-        const exists = detailedServicesData.some((s) => s.id === serviceParam);
-        if (exists) {
-          setSelectedServiceId(serviceParam);
-          setCurrentView('service-detail');
+        if (viewParam === 'service-detail' && serviceParam) {
+          const exists = detailedServicesData.some((s) => s.id === serviceParam);
+          if (exists) {
+            setSelectedServiceId(serviceParam);
+            setCurrentView('service-detail');
+            setActiveSection('services');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+          }
+        }
+
+        if (viewParam === 'services' || viewParam === 'services-catalog' || rawHash === 'services') {
+          setCurrentView('services-catalog');
           setActiveSection('services');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
-      }
 
-      if (viewParam === 'services' || viewParam === 'services-catalog' || rawHash === 'services') {
-        setCurrentView('services-catalog');
-        setActiveSection('services');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
+        if (viewParam === 'pricing' || rawHash === 'pricing') {
+          setCurrentView('pricing');
+          setActiveSection('pricing');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
 
-      if (viewParam === 'pricing' || rawHash === 'pricing') {
-        setCurrentView('pricing');
-        setActiveSection('pricing');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
+        if (viewParam === 'about' || rawHash === 'about' || rawHash === 'about-us') {
+          setCurrentView('about');
+          setActiveSection('about');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
 
-      if (viewParam === 'about' || rawHash === 'about' || rawHash === 'about-us') {
-        setCurrentView('about');
-        setActiveSection('about');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
+        if (viewParam === 'blog' || rawHash === 'blog' || rawHash === 'guides') {
+          setCurrentView('blog');
+          setActiveSection('blog');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
 
-      if (viewParam === 'blog' || rawHash === 'blog' || rawHash === 'guides') {
-        setCurrentView('blog');
-        setActiveSection('blog');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
+        if (viewParam === 'faq' || rawHash === 'faq') {
+          setCurrentView('faq');
+          setActiveSection('faq');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
 
-      if (viewParam === 'faq' || rawHash === 'faq') {
-        setCurrentView('faq');
-        setActiveSection('faq');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
+        if (viewParam === 'contact' || rawHash === 'contact') {
+          setCurrentView('contact');
+          setActiveSection('contact');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
 
-      if (viewParam === 'contact' || rawHash === 'contact') {
-        setCurrentView('contact');
-        setActiveSection('contact');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
+        // Default or home
+        setCurrentView('home');
+        setActiveSection('home');
+      } catch (err) {
+        console.error('URL Routing error:', err);
+        setCurrentView('home');
       }
-
-      // Default or home
-      setCurrentView('home');
-      setActiveSection('home');
     };
 
     handleUrlRouting();
@@ -156,7 +165,11 @@ export default function App() {
   const navigateToPage = (view: AppView, serviceId?: string) => {
     // If a hash exists in the address bar, clear it
     if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname);
+      try {
+        window.history.replaceState(null, '', window.location.pathname);
+      } catch {
+        // Ignore iframe security error
+      }
     }
 
     if (view === 'service-detail' && serviceId) {

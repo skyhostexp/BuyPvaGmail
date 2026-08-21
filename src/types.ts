@@ -79,7 +79,7 @@ export interface OrderDetails {
   email: string;
   telegramOrSkype?: string;
   paymentMethod: 'crypto';
-  cryptoCurrency: 'USDT (TRC20)' | 'USDT (BEP20)' | 'USDT (ERC20)' | 'Bitcoin (BTC)' | 'Litecoin (LTC)';
+  cryptoCurrency: string;
   txHash?: string;
   totalAmount: number;
   date: string;

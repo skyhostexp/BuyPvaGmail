@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import QRCode from 'qrcode';
 import { 
   X, 
   ShieldCheck, 
@@ -110,15 +111,14 @@ const DEFAULT_QUANTITY_TIERS: QuantityTier[] = [
   { count: 100, label: 'Best Agency Rate', saveText: '' }
 ];
 
-// 8 Crypto Payment Options matching Screenshot 3
+// 7 Crypto Payment Options with Verified Wallets
 type CryptoId = 
-  | 'USDT_ERC20' 
-  | 'USDT_TRC20' 
-  | 'USDT_BEP20' 
-  | 'USDC' 
-  | 'BUSD' 
-  | 'LTC' 
+  | 'BSC' 
   | 'TRX' 
+  | 'ETH' 
+  | 'SOL' 
+  | 'BTC' 
+  | 'LTC' 
   | 'DOGE';
 
 interface CryptoMethod {
@@ -133,85 +133,75 @@ interface CryptoMethod {
 }
 
 const CRYPTO_METHODS: Record<CryptoId, CryptoMethod> = {
-  USDT_ERC20: {
-    id: 'USDT_ERC20',
-    label: 'USDT',
-    sublabel: 'Tether USDT',
-    networkTitle: 'Tether USDT (ERC20)',
-    networkBadge: 'Ethereum Network',
-    networkBadgeColor: 'bg-red-500 text-white',
-    address: '0xF83739DBE20DCe5698c0150Ea1E1aBaA36f6F89D',
-    symbol: 'USDT (ERC20)'
-  },
-  USDT_TRC20: {
-    id: 'USDT_TRC20',
-    label: 'USDT',
-    sublabel: 'Tether USDT',
-    networkTitle: 'Tether USDT (TRC20)',
-    networkBadge: 'TRON Network (Fast & Low Fee)',
-    networkBadgeColor: 'bg-emerald-600 text-white',
-    address: 'TFshfiXsqxNxeTaF83739DBE20DCe5698c',
-    symbol: 'USDT (TRC20)'
-  },
-  USDT_BEP20: {
-    id: 'USDT_BEP20',
-    label: 'USDT',
-    sublabel: 'Tether USDT',
-    networkTitle: 'Tether USDT (BEP20)',
-    networkBadge: 'Binance Smart Chain (BSC)',
-    networkBadgeColor: 'bg-yellow-500 text-slate-900',
-    address: '0xF83739DBE20DCe5698c0150Ea1E1aBaA36f6F89D',
-    symbol: 'USDT (BEP20)'
-  },
-  USDC: {
-    id: 'USDC',
-    label: 'USDC',
-    sublabel: 'USD Coin',
-    networkTitle: 'USD Coin (USDC)',
-    networkBadge: 'ERC20 / Multi-Chain',
-    networkBadgeColor: 'bg-blue-600 text-white',
-    address: '0xF83739DBE20DCe5698c0150Ea1E1aBaA36f6F89D',
-    symbol: 'USDC'
-  },
-  BUSD: {
-    id: 'BUSD',
-    label: 'BUSD',
-    sublabel: 'Binance USD',
-    networkTitle: 'Binance USD (BUSD)',
-    networkBadge: 'BEP20 Network',
-    networkBadgeColor: 'bg-amber-500 text-slate-900',
-    address: '0xF83739DBE20DCe5698c0150Ea1E1aBaA36f6F89D',
-    symbol: 'BUSD'
-  },
-  LTC: {
-    id: 'LTC',
-    label: 'LTC',
-    sublabel: 'Litecoin',
-    networkTitle: 'Litecoin (LTC)',
-    networkBadge: 'Native Litecoin Network',
-    networkBadgeColor: 'bg-indigo-600 text-white',
-    address: 'ltc1q89f4b32a9c118e27a6d8924b1088c4b11f32a79',
-    symbol: 'LTC'
+  BSC: {
+    id: 'BSC',
+    label: 'BSC',
+    sublabel: 'BEP20 / BNB / USDT',
+    networkTitle: 'Binance Smart Chain (BEP20 / BNB / USDT)',
+    networkBadge: 'BSC / BEP20 Network',
+    networkBadgeColor: 'bg-yellow-500 text-slate-950 font-bold',
+    address: '0xb0a2b177e1770a03a5aa1d2629c52276fd93bdc6',
+    symbol: 'BSC (BEP20)'
   },
   TRX: {
     id: 'TRX',
     label: 'TRX',
-    sublabel: 'TRON',
-    networkTitle: 'TRON (TRX)',
-    networkBadge: 'TRON Mainnet',
-    networkBadgeColor: 'bg-red-600 text-white',
-    address: 'TFshfiXsqxNxeTaF83739DBE20DCe5698c',
-    symbol: 'TRX'
+    sublabel: 'TRON / TRC20 / USDT',
+    networkTitle: 'TRON / USDT (TRC20 / TRX)',
+    networkBadge: 'TRC20 / TRON Network (Instant & Low Fee)',
+    networkBadgeColor: 'bg-emerald-600 text-white font-bold',
+    address: 'TSezBSdMrdARFQQebAYiwzkPku1qHijQEh',
+    symbol: 'TRX / USDT (TRC20)'
+  },
+  ETH: {
+    id: 'ETH',
+    label: 'ETH',
+    sublabel: 'Ethereum / ERC20',
+    networkTitle: 'Ethereum / USDT (ERC20 / ETH)',
+    networkBadge: 'ERC20 / Ethereum Mainnet',
+    networkBadgeColor: 'bg-indigo-600 text-white font-bold',
+    address: '0xb0a2b177e1770a03a5aa1d2629c52276fd93bdc6',
+    symbol: 'ETH / ERC20'
+  },
+  SOL: {
+    id: 'SOL',
+    label: 'SOL',
+    sublabel: 'Solana Network',
+    networkTitle: 'Solana (SOL)',
+    networkBadge: 'Solana Mainnet (Fast & Low Fee)',
+    networkBadgeColor: 'bg-purple-600 text-white font-bold',
+    address: 'EDWaA1Kp6K9USLwuBAzmCvBxQkDiQ4Bk3LLgFxA2YdVr',
+    symbol: 'SOL (Solana)'
+  },
+  BTC: {
+    id: 'BTC',
+    label: 'BTC',
+    sublabel: 'Bitcoin Mainnet',
+    networkTitle: 'Bitcoin (BTC)',
+    networkBadge: 'Bitcoin Mainnet',
+    networkBadgeColor: 'bg-amber-600 text-white font-bold',
+    address: '18QpVzNvW5YVtywK4Zih1VKLB2gEhRojT9',
+    symbol: 'BTC (Bitcoin)'
+  },
+  LTC: {
+    id: 'LTC',
+    label: 'LTC',
+    sublabel: 'Litecoin Network',
+    networkTitle: 'Litecoin (LTC)',
+    networkBadge: 'Litecoin Mainnet (Ultra Low Fee)',
+    networkBadgeColor: 'bg-blue-600 text-white font-bold',
+    address: 'LR676Tw3B3FatHCbnjT14D1TmGfpmwM2WG',
+    symbol: 'LTC (Litecoin)'
   },
   DOGE: {
     id: 'DOGE',
     label: 'DOGE',
-    sublabel: 'Dogecoin',
+    sublabel: 'Dogecoin Network',
     networkTitle: 'Dogecoin (DOGE)',
     networkBadge: 'Dogecoin Mainnet',
-    networkBadgeColor: 'bg-amber-600 text-white',
-    address: 'D89f4b32a9c118e27a6d8924b1088c4b11f32a79',
-    symbol: 'DOGE'
+    networkBadgeColor: 'bg-amber-500 text-slate-950 font-bold',
+    address: 'DAVEHhBy6NVajnwF9g8eVHsQj1rmfVBx3n',
+    symbol: 'DOGE (Dogecoin)'
   }
 };
 
@@ -262,8 +252,9 @@ export const OrderModal: React.FC<OrderModalProps> = ({
   const [contactError, setContactError] = useState('');
 
   // Step 3 State: Payment
-  const [selectedCryptoId, setSelectedCryptoId] = useState<CryptoId>('USDT_ERC20');
+  const [selectedCryptoId, setSelectedCryptoId] = useState<CryptoId>('BSC');
   const [copiedAddress, setCopiedAddress] = useState(false);
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('');
 
   // Step 4 State: Verification & Upload
   const [txHash, setTxHash] = useState('');
@@ -287,11 +278,33 @@ export const OrderModal: React.FC<OrderModalProps> = ({
     }
   }, [initialProduct, initialQuantity]);
 
+  // Generate real original QR code for the active crypto deposit address
+  useEffect(() => {
+    const currentMethod = CRYPTO_METHODS[selectedCryptoId] || CRYPTO_METHODS.BSC;
+    if (currentMethod?.address) {
+      QRCode.toDataURL(currentMethod.address, {
+        width: 360,
+        margin: 1,
+        color: {
+          dark: '#020617',
+          light: '#ffffff'
+        },
+        errorCorrectionLevel: 'M'
+      })
+        .then((url) => {
+          setQrCodeDataUrl(url);
+        })
+        .catch((err) => {
+          console.error('Error generating QR code:', err);
+        });
+    }
+  }, [selectedCryptoId]);
+
   if (!isOpen) return null;
 
   // Active product details
   const activeProduct = detailedServicesData.find((s) => s.id === selectedServiceId) || detailedServicesData[0];
-  const activeCrypto = CRYPTO_METHODS[selectedCryptoId];
+  const activeCrypto = CRYPTO_METHODS[selectedCryptoId] || CRYPTO_METHODS.BSC;
 
   // Calculate pricing based on selected service and quantity tier
   const calculatePrice = (serviceId: string, count: number) => {
@@ -887,8 +900,8 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           {!completedOrder && currentStep === 3 && (
             <div className="space-y-5">
               
-              {/* 8 Crypto Options Grid matching Screenshot 3 */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {/* 7 Verified Crypto Options Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
                 {(Object.keys(CRYPTO_METHODS) as CryptoId[]).map((cKey) => {
                   const method = CRYPTO_METHODS[cKey];
                   const isSelected = selectedCryptoId === cKey;
@@ -898,16 +911,16 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                       key={cKey}
                       type="button"
                       onClick={() => setSelectedCryptoId(cKey)}
-                      className={`p-3 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center border ${
+                      className={`p-2.5 sm:p-3 rounded-2xl text-center transition-all duration-150 cursor-pointer flex flex-col items-center justify-center border ${
                         isSelected
-                          ? 'bg-white border-red-500 shadow-md ring-2 ring-red-500/20'
+                          ? 'bg-red-50/60 border-red-500 shadow-md ring-2 ring-red-500/20'
                           : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                       }`}
                     >
-                      <span className="text-sm font-black text-slate-900">
+                      <span className={`text-sm font-black ${isSelected ? 'text-red-700' : 'text-slate-900'}`}>
                         {method.label}
                       </span>
-                      <span className="text-[11px] text-slate-500 font-medium mt-0.5">
+                      <span className="text-[10px] text-slate-500 font-medium mt-0.5 truncate max-w-full">
                         {method.sublabel}
                       </span>
                     </button>
@@ -924,7 +937,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                     <span className="text-base font-black text-slate-900">
                       {activeCrypto.networkTitle}
                     </span>
-                    <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${activeCrypto.networkBadgeColor}`}>
+                    <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full ${activeCrypto.networkBadgeColor}`}>
                       {activeCrypto.networkBadge}
                     </span>
                   </div>
@@ -969,32 +982,55 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                   </div>
                 </div>
 
-                {/* QR Code and Live Scanner Info Box */}
+                {/* Original QR Code and Live Scanner Info Box */}
                 <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center pt-2">
                   
-                  {/* Left QR Code Container */}
-                  <div className="sm:col-span-4 flex flex-col items-center justify-center p-3.5 bg-slate-50 rounded-2xl border border-slate-200">
-                    <div className="w-32 h-32 bg-white rounded-xl p-2 flex items-center justify-center border border-slate-200 shadow-inner">
-                      <QrCode className="w-28 h-28 text-slate-900" />
+                  {/* Left Original QR Code Container */}
+                  <div className="sm:col-span-5 flex flex-col items-center justify-center p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                    <div className="w-40 h-40 bg-white rounded-2xl p-2.5 flex items-center justify-center border border-slate-200 shadow-sm relative group">
+                      {qrCodeDataUrl ? (
+                        <img 
+                          src={qrCodeDataUrl} 
+                          alt={`${activeCrypto.label} Original QR Code`}
+                          className="w-36 h-36 object-contain rounded-lg"
+                        />
+                      ) : (
+                        <div className="w-36 h-36 flex items-center justify-center text-slate-400">
+                          <RefreshCw className="w-6 h-6 animate-spin" />
+                        </div>
+                      )}
                     </div>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 mt-2">
-                      SCAN TO DEPOSIT
-                    </span>
+
+                    <div className="flex items-center justify-between w-full px-2 mt-2.5">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-slate-700">
+                        ORIGINAL QR CODE
+                      </span>
+                      {qrCodeDataUrl && (
+                        <a
+                          href={qrCodeDataUrl}
+                          download={`buypvagmail-${activeCrypto.id}-qr.png`}
+                          className="text-[10px] text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1 hover:underline"
+                        >
+                          <Download className="w-3 h-3" />
+                          <span>Save QR</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
 
                   {/* Right Scanner Instructions */}
-                  <div className="sm:col-span-8 space-y-3">
-                    <div className="flex items-start gap-2.5 text-xs text-slate-700 bg-amber-50/80 border border-amber-200/80 p-3 rounded-2xl">
-                      <span className="text-amber-600 font-bold shrink-0 text-sm">⚠️</span>
+                  <div className="sm:col-span-7 space-y-3">
+                    <div className="flex items-start gap-2.5 text-xs text-slate-700 bg-emerald-50/80 border border-emerald-200/80 p-3 rounded-2xl">
+                      <span className="text-emerald-600 font-bold shrink-0 text-sm">✓</span>
                       <p className="leading-relaxed">
-                        <strong className="text-slate-900 font-black">LIVE SCANNER READY:</strong> Point your crypto wallet app camera (Binance, Trust Wallet, MetaMask, Coinbase) at this QR code to automatically scan and deposit {activeCrypto.label} via {activeCrypto.networkBadge}.
+                        <strong className="text-slate-900 font-black">ORIGINAL WALLET QR READY:</strong> Point your crypto wallet camera (Binance, Trust Wallet, MetaMask, Phantom, Exodus, OKX, Coinbase) at this QR code to automatically scan and deposit {activeCrypto.label}.
                       </p>
                     </div>
 
-                    <div className="flex items-start gap-2.5 text-xs text-slate-600 bg-slate-50 border border-slate-200 p-3 rounded-2xl">
-                      <span className="text-red-500 font-bold shrink-0 text-sm">⚠️</span>
+                    <div className="flex items-start gap-2.5 text-xs text-slate-700 bg-amber-50/80 border border-amber-200/80 p-3 rounded-2xl">
+                      <span className="text-amber-600 font-bold shrink-0 text-sm">⚠️</span>
                       <p className="leading-relaxed">
-                        Always verify the first 4 and last 4 characters of the scanned address before sending funds.
+                        Verify address: <strong className="font-mono text-slate-900">{activeCrypto.address.slice(0, 6)}...{activeCrypto.address.slice(-6)}</strong> on <strong className="text-slate-900 font-bold">{activeCrypto.networkBadge}</strong>.
                       </p>
                     </div>
                   </div>
@@ -1055,7 +1091,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
                 <input
                   type="text"
                   required
-                  placeholder="e.g. 0x89f4b32a9c118e27a6d8924b1088c4b11f32a79c or TFshfiXsqxNxeTa..."
+                  placeholder="e.g. 0xb0a2b177e1770a03a5aa1d2629c52276fd93bdc6 or TSezBSdMrdARFQQebAYiwzkPku1qHijQEh..."
                   value={txHash}
                   onChange={(e) => setTxHash(e.target.value)}
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm font-mono text-slate-900 focus:bg-white focus:ring-2 focus:ring-red-500 focus:outline-hidden"

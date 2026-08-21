@@ -41,7 +41,7 @@ export const faqData: FaqItem[] = [
     id: 'faq-7',
     category: 'Billing & Crypto',
     question: 'What crypto payment methods and networks do you accept?',
-    answer: 'We accept Crypto exclusively for fast, private, and automated delivery: USDT (TRC20 - Instant & Low Fee), USDT (BEP20 / BSC), USDT (ERC20), Bitcoin (BTC), and Litecoin (LTC). All transactions are validated instantly and trigger automated credential dispatch within 60 seconds.'
+    answer: 'We accept BSC (BEP20 / BNB / USDT), TRX (TRC20 / TRON), ETH (ERC20 / Ethereum), SOL (Solana), Bitcoin (BTC), Litecoin (LTC), and Dogecoin (DOGE). Each option includes official wallet addresses and instant QR codes for automated 24/7 delivery.'
   },
   {
     id: 'faq-8',
