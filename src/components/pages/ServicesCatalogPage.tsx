@@ -85,15 +85,17 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
       {/* Breadcrumb Header */}
       <div className="bg-white border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-semibold text-slate-500">
-          <button 
-            onClick={() => {
+          <a 
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
               if (onNavigateHome) onNavigateHome();
               else window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >
             Home
-          </button>
+          </a>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           <span className="text-slate-900 font-bold">Services Catalog</span>
         </div>
@@ -262,13 +264,17 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
-                    <button
-                      onClick={() => onSelectServicePage(service.id)}
+                    <a
+                      href={`?view=service-detail&service=${encodeURIComponent(service.id)}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onSelectServicePage(service.id);
+                      }}
                       className="w-full py-2.5 px-3 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md hover:shadow-blue-500/25"
                     >
                       <span>View Packages</span>
                       <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+                    </a>
 
                     <button
                       onClick={() => onQuickBuy(service, service.baseQuantity)}
@@ -333,13 +339,17 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                       ${svc.unitPrice.toFixed(2)}/ea
                     </td>
                     <td className="py-3.5 px-4 text-right">
-                      <button
-                        onClick={() => onSelectServicePage(svc.id)}
+                      <a
+                        href={`?view=service-detail&service=${encodeURIComponent(svc.id)}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onSelectServicePage(svc.id);
+                        }}
                         className="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-1 cursor-pointer"
                       >
                         <span>View Details</span>
                         <ChevronRight className="w-3 h-3" />
-                      </button>
+                      </a>
                     </td>
                   </tr>
                 ))}

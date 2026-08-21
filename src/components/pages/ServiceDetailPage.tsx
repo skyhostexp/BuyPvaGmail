@@ -47,6 +47,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   const service = detailedServicesData.find((s) => s.id === serviceId) || detailedServicesData[0];
   const [customQty, setCustomQty] = useState<number>(service.baseQuantity);
   const [copiedFormat, setCopiedFormat] = useState(false);
+  const [copiedPageLink, setCopiedPageLink] = useState(false);
 
   // Calculate dynamic bulk discount for custom calculator
   const calculateDiscount = (qty: number) => {
@@ -68,6 +69,13 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     setTimeout(() => setCopiedFormat(false), 2000);
   };
 
+  const handleCopyPageLink = () => {
+    const fullUrl = `${window.location.origin}${window.location.pathname}?view=service-detail&service=${encodeURIComponent(service.id)}`;
+    navigator.clipboard.writeText(fullUrl);
+    setCopiedPageLink(true);
+    setTimeout(() => setCopiedPageLink(false), 2500);
+  };
+
   const getServiceIcon = (id: string) => {
     switch (id) {
       case 'usa-gmail-accounts': return Shield;
@@ -87,35 +95,65 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
     <div className="bg-slate-50 min-h-screen pb-24">
       {/* Breadcrumb Bar */}
       <div className="bg-white border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 overflow-x-auto whitespace-nowrap">
-            <button 
-              onClick={() => {
+            <a 
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
                 if (onNavigateHome) onNavigateHome();
                 else window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="hover:text-blue-600 transition-colors cursor-pointer"
             >
               Home
-            </button>
+            </a>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <button 
-              onClick={onBackToCatalog}
-              className="hover:text-blue-600 transition-colors"
+            <a 
+              href="?view=services-catalog"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCatalog();
+              }}
+              className="hover:text-blue-600 transition-colors cursor-pointer"
             >
               Services
-            </button>
+            </a>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-slate-900 font-bold">{service.name}</span>
           </div>
 
-          <button
-            onClick={onBackToCatalog}
-            className="text-xs font-bold text-slate-600 hover:text-blue-600 inline-flex items-center gap-1.5 cursor-pointer"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Back to All Services</span>
-          </button>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={handleCopyPageLink}
+              className="text-xs font-bold text-slate-600 hover:text-blue-600 bg-slate-100 hover:bg-blue-50 px-2.5 py-1.5 rounded-lg inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+              title="Copy link to this product page"
+            >
+              {copiedPageLink ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                  <span className="text-emerald-600">Link Copied!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-slate-500" />
+                  <span>Share / Copy Link</span>
+                </>
+              )}
+            </button>
+
+            <a
+              href="?view=services-catalog"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCatalog();
+              }}
+              className="text-xs font-bold text-slate-600 hover:text-blue-600 inline-flex items-center gap-1.5 cursor-pointer px-2 py-1.5"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Back to All Services</span>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -511,23 +549,31 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <h3 className="text-xl font-black text-slate-900">Explore Other Account Types</h3>
               <p className="text-xs text-slate-500">Discover all 6 verified PVA categories available at BuyPvaGmail</p>
             </div>
-            <button
-              onClick={onBackToCatalog}
+            <a
+              href="?view=services-catalog"
+              onClick={(e) => {
+                e.preventDefault();
+                onBackToCatalog();
+              }}
               className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1 cursor-pointer"
             >
               <span>View All 6</span>
               <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            </a>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {otherServices.map((other) => {
               const OtherIcon = getServiceIcon(other.id);
               return (
-                <div
+                <a
                   key={other.id}
-                  onClick={() => onSelectOtherService(other.id)}
-                  className="bg-white p-4 rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer group"
+                  href={`?view=service-detail&service=${encodeURIComponent(other.id)}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectOtherService(other.id);
+                  }}
+                  className="bg-white p-4 rounded-2xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all cursor-pointer group block"
                 >
                   <div className="w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-blue-50 group-hover:text-blue-600 text-slate-700 flex items-center justify-center mb-2 transition-colors">
                     <OtherIcon className="w-4 h-4" />
@@ -538,7 +584,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
                   <span className="text-[11px] text-slate-500 font-semibold block mt-0.5">
                     From ${other.unitPrice.toFixed(2)}/ea
                   </span>
-                </div>
+                </a>
               );
             })}
           </div>

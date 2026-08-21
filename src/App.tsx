@@ -162,50 +162,53 @@ export default function App() {
     }, 3000);
   };
 
-  const navigateToPage = (view: AppView, serviceId?: string) => {
-    // If a hash exists in the address bar, clear it
-    if (window.location.hash) {
-      try {
-        window.history.replaceState(null, '', window.location.pathname);
-      } catch {
-        // Ignore iframe security error
-      }
-    }
+  const navigateToPage = (view: AppView, serviceId?: string, skipHistoryPush?: boolean) => {
+    let targetUrl = window.location.pathname;
 
     if (view === 'service-detail' && serviceId) {
+      targetUrl = `${window.location.pathname}?view=service-detail&service=${encodeURIComponent(serviceId)}`;
       setSelectedServiceId(serviceId);
       setCurrentView('service-detail');
       setActiveSection('services');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (view === 'services-catalog') {
+      targetUrl = `${window.location.pathname}?view=services-catalog`;
       setCurrentView('services-catalog');
       setActiveSection('services');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (view === 'pricing') {
+      targetUrl = `${window.location.pathname}?view=pricing`;
       setCurrentView('pricing');
       setActiveSection('pricing');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (view === 'about') {
+      targetUrl = `${window.location.pathname}?view=about`;
       setCurrentView('about');
       setActiveSection('about');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (view === 'blog') {
+      targetUrl = `${window.location.pathname}?view=blog`;
       setCurrentView('blog');
       setActiveSection('blog');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (view === 'faq') {
+      targetUrl = `${window.location.pathname}?view=faq`;
       setCurrentView('faq');
       setActiveSection('faq');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (view === 'contact') {
+      targetUrl = `${window.location.pathname}?view=contact`;
       setCurrentView('contact');
       setActiveSection('contact');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
+      targetUrl = window.location.pathname;
       setCurrentView('home');
       setActiveSection('home');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    if (!skipHistoryPush) {
+      try {
+        window.history.pushState({ view, serviceId }, '', targetUrl);
+      } catch {
+        // Ignore iframe security restriction if cross-origin
+      }
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleAddToCart = (product: ServiceProduct, quantity: number) => {

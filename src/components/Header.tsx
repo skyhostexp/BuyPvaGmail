@@ -259,8 +259,12 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <div 
-              onClick={() => handleNavClick('home')}
+            <a 
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavClick('home');
+              }}
               className="flex items-center gap-3 cursor-pointer group"
             >
               <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-red-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
@@ -274,7 +278,7 @@ export const Header: React.FC<HeaderProps> = ({
                   100% Real SIM Verified Accounts
                 </span>
               </div>
-            </div>
+            </a>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
@@ -288,8 +292,10 @@ export const Header: React.FC<HeaderProps> = ({
                       onMouseEnter={handleDropdownMouseEnter}
                       onMouseLeave={handleDropdownMouseLeave}
                     >
-                      <button
-                        onClick={() => {
+                      <a
+                        href="?view=services-catalog"
+                        onClick={(e) => {
+                          e.preventDefault();
                           handleNavClick('services');
                           setServicesDropdownOpen(false);
                         }}
@@ -301,7 +307,7 @@ export const Header: React.FC<HeaderProps> = ({
                       >
                         <span>Services</span>
                         <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ease-out ${servicesDropdownOpen ? 'rotate-180 text-red-600' : 'text-slate-400'}`} />
-                      </button>
+                      </a>
 
                       {/* Dropdown Menu with Hover Bridge & Smooth Transitions */}
                       <div 
@@ -325,9 +331,13 @@ export const Header: React.FC<HeaderProps> = ({
                             {serviceSubmenuItems.map((subItem) => {
                               const IconComponent = subItem.icon;
                               return (
-                                <div
+                                <a
                                   key={subItem.id}
-                                  onClick={() => handleSubmenuServiceClick(subItem.id)}
+                                  href={`?view=service-detail&service=${encodeURIComponent(subItem.id)}`}
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    handleSubmenuServiceClick(subItem.id);
+                                  }}
                                   className="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 active:bg-slate-100 transition-all duration-150 cursor-pointer group"
                                 >
                                   <div className="flex items-center gap-3">
@@ -347,15 +357,17 @@ export const Header: React.FC<HeaderProps> = ({
                                   <span className={`text-[11px] font-black px-2 py-0.5 rounded-md ${subItem.priceBg} shrink-0 ml-2 group-hover:scale-105 transition-transform duration-150`}>
                                     {subItem.price}
                                   </span>
-                                </div>
+                                </a>
                               );
                             })}
                           </div>
 
                           {/* View All CTA */}
                           <div className="pt-2 mt-1.5 border-t border-slate-100">
-                            <button
-                              onClick={() => {
+                            <a
+                              href="?view=services-catalog"
+                              onClick={(e) => {
+                                e.preventDefault();
                                 setServicesDropdownOpen(false);
                                 handleNavClick('services');
                               }}
@@ -363,7 +375,7 @@ export const Header: React.FC<HeaderProps> = ({
                             >
                               <span>Explore All Services Catalog</span>
                               <span className="text-sm font-black transition-transform group-hover:translate-x-0.5">→</span>
-                            </button>
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -371,10 +383,20 @@ export const Header: React.FC<HeaderProps> = ({
                   );
                 }
 
+                const targetHref = item.id === 'home' 
+                  ? '/' 
+                  : item.id === 'services' 
+                    ? '?view=services-catalog' 
+                    : `?view=${encodeURIComponent(item.id)}`;
+
                 return (
-                  <button
+                  <a
                     key={item.id}
-                    onClick={() => handleNavClick(item.id)}
+                    href={targetHref}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(item.id);
+                    }}
                     className={`px-3 py-2 rounded-lg text-sm font-semibold transition-colors relative flex items-center gap-1.5 cursor-pointer ${
                       activeSection === item.id 
                         ? 'text-blue-600 bg-blue-50/80' 
@@ -387,7 +409,7 @@ export const Header: React.FC<HeaderProps> = ({
                         {item.badge}
                       </span>
                     )}
-                  </button>
+                  </a>
                 );
               })}
             </nav>
@@ -463,9 +485,13 @@ export const Header: React.FC<HeaderProps> = ({
                           {serviceSubmenuItems.map((subItem) => {
                             const IconComponent = subItem.icon;
                             return (
-                              <div
+                              <a
                                 key={`m-${subItem.id}`}
-                                onClick={() => handleSubmenuServiceClick(subItem.id)}
+                                href={`?view=service-detail&service=${encodeURIComponent(subItem.id)}`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleSubmenuServiceClick(subItem.id);
+                                }}
                                 className="flex items-center justify-between p-2 rounded-lg hover:bg-white transition-colors cursor-pointer"
                               >
                                 <div className="flex items-center gap-2.5">
@@ -480,25 +506,39 @@ export const Header: React.FC<HeaderProps> = ({
                                 <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${subItem.priceBg}`}>
                                   {subItem.price}
                                 </span>
-                              </div>
+                              </a>
                             );
                           })}
-                          <button
-                            onClick={() => handleNavClick('services')}
-                            className="w-full text-center py-2 text-xs font-bold text-red-600 hover:underline"
+                          <a
+                            href="?view=services-catalog"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleNavClick('services');
+                            }}
+                            className="block w-full text-center py-2 text-xs font-bold text-red-600 hover:underline"
                           >
                             View All Services Catalog →
-                          </button>
+                          </a>
                         </div>
                       )}
                     </div>
                   );
                 }
 
+                const targetMobileHref = item.id === 'home' 
+                  ? '/' 
+                  : item.id === 'services' 
+                    ? '?view=services-catalog' 
+                    : `?view=${encodeURIComponent(item.id)}`;
+
                 return (
-                  <button
+                  <a
                     key={item.id}
-                    onClick={() => handleNavClick(item.id)}
+                    href={targetMobileHref}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(item.id);
+                    }}
                     className={`w-full text-left px-4 py-3 rounded-xl text-base font-semibold flex items-center justify-between ${
                       activeSection === item.id 
                         ? 'bg-blue-50 text-blue-600' 
@@ -511,7 +551,7 @@ export const Header: React.FC<HeaderProps> = ({
                         {item.badge}
                       </span>
                     )}
-                  </button>
+                  </a>
                 );
               })}
             </div>

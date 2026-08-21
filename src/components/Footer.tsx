@@ -96,34 +96,76 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2">
               <li>
-                <button onClick={() => handleServiceClick('usa-gmail-accounts')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <a 
+                  href="?view=service-detail&service=usa-gmail-accounts"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleServiceClick('usa-gmail-accounts');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
                   USA Gmail Accounts ($6 / 2pcs)
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => handleServiceClick('pva-gmail-accounts')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <a 
+                  href="?view=service-detail&service=pva-gmail-accounts"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleServiceClick('pva-gmail-accounts');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
                   PVA Gmail Accounts ($6 / 2pcs)
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => handleServiceClick('aged-mix-country-gmail')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <a 
+                  href="?view=service-detail&service=aged-mix-country-gmail"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleServiceClick('aged-mix-country-gmail');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
                   Aged Mix Country ($5 / 2pcs)
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => handleServiceClick('aged-gmail-for-reviews')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <a 
+                  href="?view=service-detail&service=aged-gmail-for-reviews"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleServiceClick('aged-gmail-for-reviews');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
                   Aged Accounts For Reviews ($6 / 2pcs)
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => handleServiceClick('aged-gmail-for-google-ads')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <a 
+                  href="?view=service-detail&service=aged-gmail-for-google-ads"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleServiceClick('aged-gmail-for-google-ads');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
                   Google Ads Aged Gmails ($5 / 1pc)
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => handleServiceClick('new-gmail-accounts')} className="hover:text-white transition-colors cursor-pointer text-left">
+                <a 
+                  href="?view=service-detail&service=new-gmail-accounts"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleServiceClick('new-gmail-accounts');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
+                >
                   New Fresh PVA Gmails ($3 / 2pcs)
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -135,52 +177,76 @@ export const Footer: React.FC<FooterProps> = ({
             </h4>
             <ul className="space-y-2">
               <li>
-                <button 
-                  onClick={() => onNavigateToPage && onNavigateToPage('blog')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <a 
+                  href="?view=blog"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigateToPage) onNavigateToPage('blog');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Aged Gmail Cold Email Warmup
-                </button>
+                </a>
               </li>
               <li>
-                <button 
-                  onClick={() => onNavigateToPage && onNavigateToPage('blog')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <a 
+                  href="?view=blog"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigateToPage) onNavigateToPage('blog');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   AdsPower &amp; Dolphin&#123;anty&#125; Setup
-                </button>
+                </a>
               </li>
               <li>
-                <button 
-                  onClick={() => onNavigateToPage && onNavigateToPage('blog')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <a 
+                  href="?view=blog"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigateToPage) onNavigateToPage('blog');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Google Ads Suspension Bypass
-                </button>
+                </a>
               </li>
               <li>
-                <button 
-                  onClick={() => onNavigateToPage && onNavigateToPage('blog')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <a 
+                  href="?view=blog"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigateToPage) onNavigateToPage('blog');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   Google Maps Review Stick Protocol
-                </button>
+                </a>
               </li>
               <li>
-                <button 
-                  onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <a 
+                  href="?view=faq"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigateToPage) onNavigateToPage('faq');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   2FA TOTP Secret Key Guide
-                </button>
+                </a>
               </li>
               <li>
-                <button 
-                  onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
-                  className="hover:text-white transition-colors cursor-pointer text-left"
+                <a 
+                  href="?view=faq"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (onNavigateToPage) onNavigateToPage('faq');
+                  }} 
+                  className="hover:text-white transition-colors cursor-pointer text-left block"
                 >
                   7-Day Replacement Policy
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -234,29 +300,41 @@ export const Footer: React.FC<FooterProps> = ({
           </p>
 
           <div className="flex items-center gap-4 text-[11px]">
-            <button 
-              onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
+            <a 
+              href="?view=faq"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigateToPage) onNavigateToPage('faq');
+              }} 
               className="hover:text-white transition-colors cursor-pointer"
             >
               Privacy Policy
-            </button>
+            </a>
             <span>•</span>
-            <button 
-              onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
+            <a 
+              href="?view=faq"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigateToPage) onNavigateToPage('faq');
+              }} 
               className="hover:text-white transition-colors cursor-pointer"
             >
               Terms of Service
-            </button>
+            </a>
             <span>•</span>
-            <button 
-              onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
+            <a 
+              href="?view=faq"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigateToPage) onNavigateToPage('faq');
+              }} 
               className="hover:text-white transition-colors cursor-pointer"
             >
               Warranty Guidelines
-            </button>
+            </a>
             <button
               onClick={scrollToTop}
-              className="ml-4 p-2 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg border border-slate-800 transition-colors"
+              className="ml-4 p-2 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg border border-slate-800 transition-colors cursor-pointer"
               title="Scroll to top"
             >
               <ArrowUp className="w-3.5 h-3.5" />

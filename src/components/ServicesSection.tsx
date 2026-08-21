@@ -157,7 +157,20 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
 
                   {/* Product Title & Description */}
                   <h3 className="text-xl font-black text-slate-900 tracking-tight">
-                    {product.name}
+                    {onExploreServicePage ? (
+                      <a
+                        href={`?view=service-detail&service=${encodeURIComponent(product.id)}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onExploreServicePage(product.id);
+                        }}
+                        className="hover:text-blue-600 transition-colors"
+                      >
+                        {product.name}
+                      </a>
+                    ) : (
+                      product.name
+                    )}
                   </h3>
                   <p className="text-xs text-slate-500 mt-1 line-clamp-2">
                     {product.shortDesc}
@@ -262,13 +275,17 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                 {/* Card Footer Actions */}
                 <div className="p-6 bg-slate-50/80 border-t border-slate-100 flex flex-col gap-2">
                   {onExploreServicePage && (
-                    <button
-                      onClick={() => onExploreServicePage(product.id)}
+                    <a
+                      href={`?view=service-detail&service=${encodeURIComponent(product.id)}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onExploreServicePage(product.id);
+                      }}
                       className="w-full text-center text-xs font-bold text-blue-600 hover:text-blue-800 hover:bg-blue-50 py-1.5 rounded-lg transition-colors flex items-center justify-center gap-1 cursor-pointer mb-0.5"
                     >
                       <span>View Packages & Specifications</span>
                       <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+                    </a>
                   )}
 
                   <button
