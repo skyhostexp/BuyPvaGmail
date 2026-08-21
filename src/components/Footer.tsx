@@ -1,0 +1,259 @@
+import React from 'react';
+import { 
+  ShieldCheck, 
+  Lock, 
+  Coins, 
+  CreditCard, 
+  ArrowUp, 
+  Send, 
+  CheckCircle2,
+  Mail,
+  Headphones
+} from 'lucide-react';
+
+interface FooterProps {
+  onOpenOrderModal: (productId?: string) => void;
+  onOpenCheckerModal: () => void;
+  onOpenTrackingModal: () => void;
+  onNavigateToPage?: (page: string, serviceId?: string) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ 
+  onOpenOrderModal, 
+  onOpenCheckerModal, 
+  onOpenTrackingModal,
+  onNavigateToPage 
+}) => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleServiceClick = (serviceId: string) => {
+    if (onNavigateToPage) {
+      onNavigateToPage('service-detail', serviceId);
+    } else {
+      onOpenOrderModal(serviceId);
+    }
+  };
+
+  return (
+    <footer className="bg-slate-950 text-slate-400 text-xs pt-16 pb-12 border-t border-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 pb-12 border-b border-slate-850">
+          
+          {/* Brand Info */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-black shadow-md">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <span className="text-xl font-black text-white tracking-tight">
+                BuyPva<span className="text-red-500">Gmail</span>
+              </span>
+            </div>
+
+            <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
+              BuyPvaGmail is the leading platform for 100% real carrier phone-verified (PVA) and aged USA Gmail accounts. 
+              Built on clean static residential IPs, delivering maximum inbox deliverability for cold outreach, Google Ads, and local SEO.
+            </p>
+
+            <div className="flex items-center gap-3 pt-2 flex-wrap">
+              <a
+                href="https://t.me/"
+                target="_blank"
+                rel="noreferrer"
+                className="bg-slate-900 hover:bg-blue-600 hover:text-white text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-800 transition-colors flex items-center gap-1.5"
+              >
+                <Send className="w-3.5 h-3.5" />
+                Telegram Support
+              </a>
+              <button
+                onClick={onOpenTrackingModal}
+                className="bg-slate-900 hover:bg-amber-600 hover:text-white text-amber-400 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-800 transition-colors flex items-center gap-1.5 cursor-pointer"
+              >
+                <ShieldCheck className="w-3.5 h-3.5" />
+                Track Order
+              </button>
+              <button
+                onClick={onOpenCheckerModal}
+                className="bg-slate-900 hover:bg-slate-800 text-emerald-400 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-800 transition-colors flex items-center gap-1.5 cursor-pointer"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                Format Inspector
+              </button>
+            </div>
+          </div>
+
+          {/* Column 1: Services */}
+          <div>
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-3">
+              Services
+            </h4>
+            <ul className="space-y-2">
+              <li>
+                <button onClick={() => handleServiceClick('usa-gmail-accounts')} className="hover:text-white transition-colors cursor-pointer text-left">
+                  USA Gmail Accounts ($6 / 2pcs)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleServiceClick('pva-gmail-accounts')} className="hover:text-white transition-colors cursor-pointer text-left">
+                  PVA Gmail Accounts ($6 / 2pcs)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleServiceClick('aged-mix-country-gmail')} className="hover:text-white transition-colors cursor-pointer text-left">
+                  Aged Mix Country ($5 / 2pcs)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleServiceClick('aged-gmail-for-reviews')} className="hover:text-white transition-colors cursor-pointer text-left">
+                  Aged Accounts For Reviews ($6 / 2pcs)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleServiceClick('aged-gmail-for-google-ads')} className="hover:text-white transition-colors cursor-pointer text-left">
+                  Google Ads Aged Gmails ($5 / 1pc)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => handleServiceClick('new-gmail-accounts')} className="hover:text-white transition-colors cursor-pointer text-left">
+                  New Fresh PVA Gmails ($3 / 2pcs)
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 2: Resources & Guides */}
+          <div>
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-3">
+              Agency Guides
+            </h4>
+            <ul className="space-y-2">
+              <li>
+                <button 
+                  onClick={() => onNavigateToPage && onNavigateToPage('blog')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Aged Gmail Cold Email Warmup
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => onNavigateToPage && onNavigateToPage('blog')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  AdsPower &amp; Dolphin&#123;anty&#125; Setup
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => onNavigateToPage && onNavigateToPage('blog')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Google Ads Suspension Bypass
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => onNavigateToPage && onNavigateToPage('blog')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  Google Maps Review Stick Protocol
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  2FA TOTP Secret Key Guide
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
+                  className="hover:text-white transition-colors cursor-pointer text-left"
+                >
+                  7-Day Replacement Policy
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Trust & Payments */}
+          <div>
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-3">
+              Crypto Gateway
+            </h4>
+            <p className="text-[11px] text-slate-400 mb-3">
+              Automated 24/7 instant delivery on all crypto networks:
+            </p>
+            <div className="space-y-2 text-xs text-slate-300 font-medium">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span>USDT (TRC20) • Instant / $0.5 Fee</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-yellow-400" />
+                <span>USDT (BEP20 / BSC) • Fast</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-400" />
+                <span>USDT (ERC20 / Ethereum)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
+                <span>Bitcoin (BTC)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-indigo-400" />
+                <span>Litecoin (LTC) • Ultra Low Fee</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-slate-400 text-[11px]">
+            &copy; {new Date().getFullYear()} BuyPvaGmail.com. All rights reserved. Follows industry standard PVA delivery protocols.
+          </p>
+
+          <div className="flex items-center gap-4 text-[11px]">
+            <button 
+              onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              Privacy Policy
+            </button>
+            <span>•</span>
+            <button 
+              onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              Terms of Service
+            </button>
+            <span>•</span>
+            <button 
+              onClick={() => onNavigateToPage && onNavigateToPage('faq')} 
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              Warranty Guidelines
+            </button>
+            <button
+              onClick={scrollToTop}
+              className="ml-4 p-2 bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white rounded-lg border border-slate-800 transition-colors"
+              title="Scroll to top"
+            >
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  );
+};

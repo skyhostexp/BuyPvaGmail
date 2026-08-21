@@ -1,0 +1,6 @@
+{
+  "name": "BuyPvaGmail",
+  "description": "Premium USA Aged and PVA Gmail Accounts marketplace with instant delivery, replacement guarantee, bulk tiered pricing, and agency guides.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
