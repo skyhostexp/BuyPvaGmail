@@ -6,7 +6,9 @@ import {
   CheckCircle2,
   ShieldCheck,
   MessageCircleQuestion,
-  Headphones
+  Headphones,
+  Send,
+  MessageSquare
 } from 'lucide-react';
 import { faqData } from '../data/faqData';
 
@@ -95,20 +97,31 @@ export const FaqSection: React.FC = () => {
         </div>
 
         {/* Support Help box */}
-        <div className="mt-12 text-center p-6 bg-white rounded-2xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-12 text-center p-6 bg-white rounded-2xl border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-left">
             <h4 className="text-sm font-bold text-slate-900">Have a custom question not covered here?</h4>
-            <p className="text-xs text-slate-500 mt-0.5">Our Telegram & Skype engineering team responds in under 5 minutes.</p>
+            <p className="text-xs text-slate-500 mt-0.5">Our Telegram & WhatsApp support team responds in under 5 minutes.</p>
           </div>
-          <a
-            href="https://t.me/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs shrink-0"
-          >
-            <Headphones className="w-4 h-4" />
-            <span>Chat with Live Specialist</span>
-          </a>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <a
+              href="https://t.me/Go2Rapid"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs shrink-0"
+            >
+              <Send className="w-3.5 h-3.5" />
+              <span>Telegram: @Go2Rapid</span>
+            </a>
+            <a
+              href="https://wa.me/12534080049"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-xs shrink-0"
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              <span>WhatsApp: +1 (253) 408-0049</span>
+            </a>
+          </div>
         </div>
 
       </div>

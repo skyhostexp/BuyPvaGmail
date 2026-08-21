@@ -53,7 +53,7 @@ export const ContactSection: React.FC = () => {
             
             {/* Telegram Card */}
             <a
-              href="https://t.me/"
+              href="https://t.me/Go2Rapid"
               target="_blank"
               rel="noreferrer"
               className="bg-blue-50/80 hover:bg-blue-100/80 p-5 rounded-2xl border border-blue-200 transition-all flex items-start gap-4 group"
@@ -64,7 +64,7 @@ export const ContactSection: React.FC = () => {
               <div className="flex-1">
                 <div className="flex items-center justify-between">
                   <h4 className="text-base font-bold text-slate-900 group-hover:text-blue-700">
-                    Official Telegram Channel & Desk
+                    Official Telegram Support
                   </h4>
                   <ExternalLink className="w-4 h-4 text-blue-500" />
                 </div>
@@ -72,7 +72,33 @@ export const ContactSection: React.FC = () => {
                   Fastest response (&lt;5 mins) for bulk discounts & instant replacements.
                 </p>
                 <span className="inline-block text-xs font-black text-blue-700 mt-2">
-                  @BuyPvaGmail_Help
+                  @Go2Rapid
+                </span>
+              </div>
+            </a>
+
+            {/* WhatsApp Card */}
+            <a
+              href="https://wa.me/12534080049"
+              target="_blank"
+              rel="noreferrer"
+              className="bg-emerald-50/80 hover:bg-emerald-100/80 p-5 rounded-2xl border border-emerald-200 transition-all flex items-start gap-4 group"
+            >
+              <div className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-500/20">
+                <MessageSquare className="w-6 h-6" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-base font-bold text-slate-900 group-hover:text-emerald-700">
+                    WhatsApp Direct Line
+                  </h4>
+                  <ExternalLink className="w-4 h-4 text-emerald-500" />
+                </div>
+                <p className="text-xs text-slate-600 mt-0.5">
+                  Direct mobile chat for quick questions, custom invoicing & order support.
+                </p>
+                <span className="inline-block text-xs font-black text-emerald-700 mt-2">
+                  +1 (253) 408-0049
                 </span>
               </div>
             </a>

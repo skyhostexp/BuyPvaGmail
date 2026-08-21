@@ -236,7 +236,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigateHome }) => {
                 </div>
                 <div>
                   <h3 className="text-lg font-black text-white">Instant Telegram Desk</h3>
-                  <p className="text-xs text-slate-400 font-semibold">Direct 1-on-1 agent messaging</p>
+                  <p className="text-xs text-slate-400 font-semibold">Direct 1-on-1 agent messaging (@Go2Rapid)</p>
                 </div>
               </div>
 
@@ -245,13 +245,40 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigateHome }) => {
               </p>
 
               <a
-                href="https://t.me/"
+                href="https://t.me/Go2Rapid"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25"
               >
                 <Send className="w-4 h-4" />
-                <span>Open Telegram Support</span>
+                <span>Open Telegram (@Go2Rapid)</span>
+              </a>
+            </div>
+
+            {/* WhatsApp VIP Desk Card */}
+            <div className="bg-gradient-to-br from-slate-900 to-emerald-950 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-xl space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                  <MessageSquare className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-black text-white">WhatsApp Live Support</h3>
+                  <p className="text-xs text-slate-400 font-semibold">+1 (253) 408-0049</p>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Chat directly with our support team on WhatsApp for fast account orders, bulk inquiries, and instant payment confirmations.
+              </p>
+
+              <a
+                href="https://wa.me/12534080049"
+                target="_blank"
+                rel="noreferrer"
+                className="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25"
+              >
+                <MessageSquare className="w-4 h-4" />
+                <span>Open WhatsApp (+1 253 408-0049)</span>
               </a>
             </div>
 

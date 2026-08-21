@@ -9,7 +9,8 @@ import {
   ChevronRight,
   Headphones,
   CheckCircle2,
-  X
+  X,
+  MessageSquare
 } from 'lucide-react';
 import { faqData } from '../../data/faqData';
 
@@ -168,13 +169,23 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigateToContact, onNavigat
 
           <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
-              href="https://t.me/"
+              href="https://t.me/Go2Rapid"
               target="_blank"
               rel="noreferrer"
               className="w-full sm:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25"
             >
               <Send className="w-4 h-4" />
-              <span>Telegram VIP Desk</span>
+              <span>Telegram: @Go2Rapid</span>
+            </a>
+
+            <a
+              href="https://wa.me/12534080049"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/25"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>WhatsApp: +1 (253) 408-0049</span>
             </a>
 
             <button

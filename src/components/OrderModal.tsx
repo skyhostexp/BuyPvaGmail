@@ -468,7 +468,7 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       'us.enterprise.boost2023@gmail.com:V82!plx992#:backup.rec03@outlook.com:NXEMVJ5W4GZ7QPYE:Mozilla/5.0 (Windows NT 10.0; Win64; x64):{"SID":"CC-ok9283","HSID":"HS-9823"}',
       '---------------------------------------------------------------------------------',
       'Note: For multi-account operation, use AdsPower or Dolphin{anty} with US Residential Proxies.',
-      'Support Telegram: @BuyPvaGmail_Help | 24/7 Priority Live Dispatch'
+      'Support Telegram: @Go2Rapid | WhatsApp: +1 (253) 408-0049 | 24/7 Priority Live Dispatch'
     ];
     const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);

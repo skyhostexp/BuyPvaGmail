@@ -8,7 +8,8 @@ import {
   Send, 
   CheckCircle2,
   Mail,
-  Headphones
+  Headphones,
+  MessageSquare
 } from 'lucide-react';
 
 interface FooterProps {
@@ -61,13 +62,22 @@ export const Footer: React.FC<FooterProps> = ({
 
             <div className="flex items-center gap-3 pt-2 flex-wrap">
               <a
-                href="https://t.me/"
+                href="https://t.me/Go2Rapid"
                 target="_blank"
                 rel="noreferrer"
                 className="bg-slate-900 hover:bg-blue-600 hover:text-white text-slate-300 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-800 transition-colors flex items-center gap-1.5"
               >
                 <Send className="w-3.5 h-3.5" />
-                Telegram Support
+                Telegram: @Go2Rapid
+              </a>
+              <a
+                href="https://wa.me/12534080049"
+                target="_blank"
+                rel="noreferrer"
+                className="bg-slate-900 hover:bg-emerald-600 hover:text-white text-emerald-400 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-800 transition-colors flex items-center gap-1.5"
+              >
+                <MessageSquare className="w-3.5 h-3.5" />
+                WhatsApp: +1 (253) 408-0049
               </a>
               <button
                 onClick={onOpenTrackingModal}

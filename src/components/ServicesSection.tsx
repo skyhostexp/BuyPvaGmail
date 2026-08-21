@@ -13,7 +13,9 @@ import {
   Lock,
   ArrowRight,
   TrendingUp,
-  Award
+  Award,
+  Send,
+  MessageSquare
 } from 'lucide-react';
 import { ServiceProduct } from '../types';
 import { servicesData, quantityTiers } from '../data/servicesData';
@@ -309,15 +311,26 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
             </div>
           </div>
 
-          <a
-            href="https://t.me/"
-            target="_blank"
-            rel="noreferrer"
-            className="shrink-0 bg-slate-900 hover:bg-slate-800 text-white font-bold px-6 py-3 rounded-xl text-sm flex items-center gap-2 transition-all shadow-md"
-          >
-            <span>Contact VIP Agency Desk</span>
-            <ArrowRight className="w-4 h-4" />
-          </a>
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <a
+              href="https://t.me/Go2Rapid"
+              target="_blank"
+              rel="noreferrer"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-3 rounded-xl text-sm flex items-center gap-2 transition-all shadow-md"
+            >
+              <Send className="w-4 h-4" />
+              <span>Telegram: @Go2Rapid</span>
+            </a>
+            <a
+              href="https://wa.me/12534080049"
+              target="_blank"
+              rel="noreferrer"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-3 rounded-xl text-sm flex items-center gap-2 transition-all shadow-md"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>WhatsApp: +1 (253) 408-0049</span>
+            </a>
+          </div>
         </div>
 
       </div>

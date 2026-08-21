@@ -240,11 +240,15 @@ export const Header: React.FC<HeaderProps> = ({
               Free PVA Checker Tool
             </button>
             <span className="text-slate-600">|</span>
-            <div className="flex items-center gap-1 text-slate-400 text-xs">
+            <div className="flex items-center gap-2 text-slate-400 text-xs">
               <Headphones className="w-3.5 h-3.5 text-blue-400" />
               <span>24/7 Live Support: </span>
-              <a href="https://t.me/" target="_blank" rel="noreferrer" className="text-blue-400 hover:underline font-semibold">
-                @BuyPvaGmail_Help
+              <a href="https://t.me/Go2Rapid" target="_blank" rel="noreferrer" className="text-blue-400 hover:underline font-semibold flex items-center gap-1">
+                @Go2Rapid
+              </a>
+              <span className="text-slate-600">|</span>
+              <a href="https://wa.me/12534080049" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline font-semibold flex items-center gap-1">
+                WhatsApp: +1 (253) 408-0049
               </a>
             </div>
           </div>
