@@ -61,10 +61,11 @@ export default function App() {
   const [isTrackingModalOpen, setIsTrackingModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Clean URL and View Synchronization without '#' hashes
+  // Clean URL and View Synchronization with standard pathnames (/contact, /blog, /services, etc.)
   useEffect(() => {
     const handleUrlRouting = () => {
       try {
+        const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
         const searchParams = new URLSearchParams(window.location.search);
         const viewParam = searchParams.get('view');
         const serviceParam = searchParams.get('service');
@@ -79,10 +80,21 @@ export default function App() {
           }
         }
 
-        if (viewParam === 'service-detail' && serviceParam) {
-          const exists = detailedServicesData.some((s) => s.id === serviceParam);
+        // Match service detail: /services/:id or /service/:id or ?view=service-detail&service=:id
+        let targetServiceId: string | null = null;
+        if (pathname.startsWith('/services/') || pathname.startsWith('/service/')) {
+          const parts = pathname.split('/');
+          if (parts[2]) {
+            targetServiceId = decodeURIComponent(parts[2]);
+          }
+        } else if (viewParam === 'service-detail' && serviceParam) {
+          targetServiceId = serviceParam;
+        }
+
+        if (targetServiceId) {
+          const exists = detailedServicesData.some((s) => s.id === targetServiceId);
           if (exists) {
-            setSelectedServiceId(serviceParam);
+            setSelectedServiceId(targetServiceId);
             setCurrentView('service-detail');
             setActiveSection('services');
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -90,49 +102,73 @@ export default function App() {
           }
         }
 
-        if (viewParam === 'services' || viewParam === 'services-catalog' || rawHash === 'services') {
+        // Services Catalog
+        if (
+          pathname === '/services' ||
+          pathname === '/services-catalog' ||
+          viewParam === 'services' ||
+          viewParam === 'services-catalog' ||
+          rawHash === 'services'
+        ) {
           setCurrentView('services-catalog');
           setActiveSection('services');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
 
-        if (viewParam === 'pricing' || rawHash === 'pricing') {
+        // Pricing
+        if (pathname === '/pricing' || viewParam === 'pricing' || rawHash === 'pricing') {
           setCurrentView('pricing');
           setActiveSection('pricing');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
 
-        if (viewParam === 'about' || rawHash === 'about' || rawHash === 'about-us') {
+        // About
+        if (
+          pathname === '/about' ||
+          pathname === '/about-us' ||
+          viewParam === 'about' ||
+          rawHash === 'about' ||
+          rawHash === 'about-us'
+        ) {
           setCurrentView('about');
           setActiveSection('about');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
 
-        if (viewParam === 'blog' || rawHash === 'blog' || rawHash === 'guides') {
+        // Blog
+        if (
+          pathname === '/blog' ||
+          pathname === '/guides' ||
+          viewParam === 'blog' ||
+          rawHash === 'blog' ||
+          rawHash === 'guides'
+        ) {
           setCurrentView('blog');
           setActiveSection('blog');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
 
-        if (viewParam === 'faq' || rawHash === 'faq') {
+        // FAQ
+        if (pathname === '/faq' || viewParam === 'faq' || rawHash === 'faq') {
           setCurrentView('faq');
           setActiveSection('faq');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
 
-        if (viewParam === 'contact' || rawHash === 'contact') {
+        // Contact
+        if (pathname === '/contact' || viewParam === 'contact' || rawHash === 'contact') {
           setCurrentView('contact');
           setActiveSection('contact');
           window.scrollTo({ top: 0, behavior: 'smooth' });
           return;
         }
 
-        // Default or home
+        // Default or Home (/)
         setCurrentView('home');
         setActiveSection('home');
       } catch (err) {
@@ -163,39 +199,39 @@ export default function App() {
   };
 
   const navigateToPage = (view: AppView, serviceId?: string, skipHistoryPush?: boolean) => {
-    let targetUrl = window.location.pathname;
+    let targetUrl = '/';
 
     if (view === 'service-detail' && serviceId) {
-      targetUrl = `${window.location.pathname}?view=service-detail&service=${encodeURIComponent(serviceId)}`;
+      targetUrl = `/services/${encodeURIComponent(serviceId)}`;
       setSelectedServiceId(serviceId);
       setCurrentView('service-detail');
       setActiveSection('services');
     } else if (view === 'services-catalog') {
-      targetUrl = `${window.location.pathname}?view=services-catalog`;
+      targetUrl = '/services';
       setCurrentView('services-catalog');
       setActiveSection('services');
     } else if (view === 'pricing') {
-      targetUrl = `${window.location.pathname}?view=pricing`;
+      targetUrl = '/pricing';
       setCurrentView('pricing');
       setActiveSection('pricing');
     } else if (view === 'about') {
-      targetUrl = `${window.location.pathname}?view=about`;
+      targetUrl = '/about';
       setCurrentView('about');
       setActiveSection('about');
     } else if (view === 'blog') {
-      targetUrl = `${window.location.pathname}?view=blog`;
+      targetUrl = '/blog';
       setCurrentView('blog');
       setActiveSection('blog');
     } else if (view === 'faq') {
-      targetUrl = `${window.location.pathname}?view=faq`;
+      targetUrl = '/faq';
       setCurrentView('faq');
       setActiveSection('faq');
     } else if (view === 'contact') {
-      targetUrl = `${window.location.pathname}?view=contact`;
+      targetUrl = '/contact';
       setCurrentView('contact');
       setActiveSection('contact');
     } else {
-      targetUrl = window.location.pathname;
+      targetUrl = '/';
       setCurrentView('home');
       setActiveSection('home');
     }

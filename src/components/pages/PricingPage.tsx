@@ -58,15 +58,17 @@ export const PricingPage: React.FC<PricingPageProps> = ({
       {/* Breadcrumb Header */}
       <div className="bg-white border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-semibold text-slate-500">
-          <button 
-            onClick={() => {
+          <a 
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
               if (onNavigateHome) onNavigateHome();
               else window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >
             Home
-          </button>
+          </a>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           <span className="text-slate-900 font-bold">Pricing & Bulk Rates</span>
         </div>
@@ -297,13 +299,17 @@ export const PricingPage: React.FC<PricingPageProps> = ({
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-slate-100 grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => onSelectServicePage(service.id)}
+                  <a
+                    href={`/services/${encodeURIComponent(service.id)}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectServicePage(service.id);
+                    }}
                     className="w-full py-2.5 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 cursor-pointer"
                   >
                     <span>View Specs</span>
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  </a>
 
                   <button
                     onClick={() => onQuickBuy(service, service.baseQuantity)}

@@ -293,7 +293,7 @@ export const Header: React.FC<HeaderProps> = ({
                       onMouseLeave={handleDropdownMouseLeave}
                     >
                       <a
-                        href="?view=services-catalog"
+                        href="/services"
                         onClick={(e) => {
                           e.preventDefault();
                           handleNavClick('services');
@@ -333,7 +333,7 @@ export const Header: React.FC<HeaderProps> = ({
                               return (
                                 <a
                                   key={subItem.id}
-                                  href={`?view=service-detail&service=${encodeURIComponent(subItem.id)}`}
+                                  href={`/services/${encodeURIComponent(subItem.id)}`}
                                   onClick={(e) => {
                                     e.preventDefault();
                                     handleSubmenuServiceClick(subItem.id);
@@ -365,7 +365,7 @@ export const Header: React.FC<HeaderProps> = ({
                           {/* View All CTA */}
                           <div className="pt-2 mt-1.5 border-t border-slate-100">
                             <a
-                              href="?view=services-catalog"
+                              href="/services"
                               onClick={(e) => {
                                 e.preventDefault();
                                 setServicesDropdownOpen(false);
@@ -386,8 +386,8 @@ export const Header: React.FC<HeaderProps> = ({
                 const targetHref = item.id === 'home' 
                   ? '/' 
                   : item.id === 'services' 
-                    ? '?view=services-catalog' 
-                    : `?view=${encodeURIComponent(item.id)}`;
+                    ? '/services' 
+                    : `/${encodeURIComponent(item.id)}`;
 
                 return (
                   <a
@@ -487,7 +487,7 @@ export const Header: React.FC<HeaderProps> = ({
                             return (
                               <a
                                 key={`m-${subItem.id}`}
-                                href={`?view=service-detail&service=${encodeURIComponent(subItem.id)}`}
+                                href={`/services/${encodeURIComponent(subItem.id)}`}
                                 onClick={(e) => {
                                   e.preventDefault();
                                   handleSubmenuServiceClick(subItem.id);
@@ -510,7 +510,7 @@ export const Header: React.FC<HeaderProps> = ({
                             );
                           })}
                           <a
-                            href="?view=services-catalog"
+                            href="/services"
                             onClick={(e) => {
                               e.preventDefault();
                               handleNavClick('services');
@@ -528,8 +528,8 @@ export const Header: React.FC<HeaderProps> = ({
                 const targetMobileHref = item.id === 'home' 
                   ? '/' 
                   : item.id === 'services' 
-                    ? '?view=services-catalog' 
-                    : `?view=${encodeURIComponent(item.id)}`;
+                    ? '/services' 
+                    : `/${encodeURIComponent(item.id)}`;
 
                 return (
                   <a

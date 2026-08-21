@@ -37,15 +37,17 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
       {/* Breadcrumb Header */}
       <div className="bg-white border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-semibold text-slate-500">
-          <button 
-            onClick={() => {
+          <a 
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
               if (onNavigateHome) onNavigateHome();
               else window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >
             Home
-          </button>
+          </a>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           <span className="text-slate-900 font-bold">About Us</span>
         </div>
@@ -206,21 +208,29 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button
-              onClick={onNavigateToServices}
+            <a
+              href="/services"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateToServices();
+              }}
               className="w-full sm:w-auto px-6 py-3.5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-blue-500/25"
             >
               <span>Explore Services Catalog</span>
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </a>
 
-            <button
-              onClick={onNavigateToContact}
+            <a
+              href="/contact"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateToContact();
+              }}
               className="w-full sm:w-auto px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <Send className="w-4 h-4" />
               <span>Contact Support</span>
-            </button>
+            </a>
           </div>
         </div>
 

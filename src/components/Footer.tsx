@@ -97,7 +97,7 @@ export const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-2">
               <li>
                 <a 
-                  href="?view=service-detail&service=usa-gmail-accounts"
+                  href="/services/usa-gmail-accounts"
                   onClick={(e) => {
                     e.preventDefault();
                     handleServiceClick('usa-gmail-accounts');
@@ -109,7 +109,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=service-detail&service=pva-gmail-accounts"
+                  href="/services/pva-gmail-accounts"
                   onClick={(e) => {
                     e.preventDefault();
                     handleServiceClick('pva-gmail-accounts');
@@ -121,7 +121,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=service-detail&service=aged-mix-country-gmail"
+                  href="/services/aged-mix-country-gmail"
                   onClick={(e) => {
                     e.preventDefault();
                     handleServiceClick('aged-mix-country-gmail');
@@ -133,7 +133,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=service-detail&service=aged-gmail-for-reviews"
+                  href="/services/aged-gmail-for-reviews"
                   onClick={(e) => {
                     e.preventDefault();
                     handleServiceClick('aged-gmail-for-reviews');
@@ -145,7 +145,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=service-detail&service=aged-gmail-for-google-ads"
+                  href="/services/aged-gmail-for-google-ads"
                   onClick={(e) => {
                     e.preventDefault();
                     handleServiceClick('aged-gmail-for-google-ads');
@@ -157,7 +157,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=service-detail&service=new-gmail-accounts"
+                  href="/services/new-gmail-accounts"
                   onClick={(e) => {
                     e.preventDefault();
                     handleServiceClick('new-gmail-accounts');
@@ -178,7 +178,7 @@ export const Footer: React.FC<FooterProps> = ({
             <ul className="space-y-2">
               <li>
                 <a 
-                  href="?view=blog"
+                  href="/blog"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('blog');
@@ -190,7 +190,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=blog"
+                  href="/blog"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('blog');
@@ -202,7 +202,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=blog"
+                  href="/blog"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('blog');
@@ -214,7 +214,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=blog"
+                  href="/blog"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('blog');
@@ -226,7 +226,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=faq"
+                  href="/faq"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('faq');
@@ -238,7 +238,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <a 
-                  href="?view=faq"
+                  href="/faq"
                   onClick={(e) => {
                     e.preventDefault();
                     if (onNavigateToPage) onNavigateToPage('faq');
@@ -301,7 +301,7 @@ export const Footer: React.FC<FooterProps> = ({
 
           <div className="flex items-center gap-4 text-[11px]">
             <a 
-              href="?view=faq"
+              href="/faq"
               onClick={(e) => {
                 e.preventDefault();
                 if (onNavigateToPage) onNavigateToPage('faq');
@@ -312,7 +312,7 @@ export const Footer: React.FC<FooterProps> = ({
             </a>
             <span>•</span>
             <a 
-              href="?view=faq"
+              href="/faq"
               onClick={(e) => {
                 e.preventDefault();
                 if (onNavigateToPage) onNavigateToPage('faq');
@@ -323,7 +323,7 @@ export const Footer: React.FC<FooterProps> = ({
             </a>
             <span>•</span>
             <a 
-              href="?view=faq"
+              href="/faq"
               onClick={(e) => {
                 e.preventDefault();
                 if (onNavigateToPage) onNavigateToPage('faq');

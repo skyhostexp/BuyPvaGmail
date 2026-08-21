@@ -159,7 +159,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                   <h3 className="text-xl font-black text-slate-900 tracking-tight">
                     {onExploreServicePage ? (
                       <a
-                        href={`?view=service-detail&service=${encodeURIComponent(product.id)}`}
+                        href={`/services/${encodeURIComponent(product.id)}`}
                         onClick={(e) => {
                           e.preventDefault();
                           onExploreServicePage(product.id);
@@ -276,7 +276,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onAddToCart, o
                 <div className="p-6 bg-slate-50/80 border-t border-slate-100 flex flex-col gap-2">
                   {onExploreServicePage && (
                     <a
-                      href={`?view=service-detail&service=${encodeURIComponent(product.id)}`}
+                      href={`/services/${encodeURIComponent(product.id)}`}
                       onClick={(e) => {
                         e.preventDefault();
                         onExploreServicePage(product.id);

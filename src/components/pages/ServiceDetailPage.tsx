@@ -70,7 +70,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
   };
 
   const handleCopyPageLink = () => {
-    const fullUrl = `${window.location.origin}${window.location.pathname}?view=service-detail&service=${encodeURIComponent(service.id)}`;
+    const fullUrl = `${window.location.origin}/services/${encodeURIComponent(service.id)}`;
     navigator.clipboard.writeText(fullUrl);
     setCopiedPageLink(true);
     setTimeout(() => setCopiedPageLink(false), 2500);
@@ -110,7 +110,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             </a>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <a 
-              href="?view=services-catalog"
+              href="/services"
               onClick={(e) => {
                 e.preventDefault();
                 onBackToCatalog();
@@ -143,7 +143,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             </button>
 
             <a
-              href="?view=services-catalog"
+              href="/services"
               onClick={(e) => {
                 e.preventDefault();
                 onBackToCatalog();
@@ -550,7 +550,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               <p className="text-xs text-slate-500">Discover all 6 verified PVA categories available at BuyPvaGmail</p>
             </div>
             <a
-              href="?view=services-catalog"
+              href="/services"
               onClick={(e) => {
                 e.preventDefault();
                 onBackToCatalog();
@@ -568,7 +568,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
               return (
                 <a
                   key={other.id}
-                  href={`?view=service-detail&service=${encodeURIComponent(other.id)}`}
+                  href={`/services/${encodeURIComponent(other.id)}`}
                   onClick={(e) => {
                     e.preventDefault();
                     onSelectOtherService(other.id);

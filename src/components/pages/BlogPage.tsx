@@ -44,15 +44,17 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onNavigateHome }) => {
       <div className="bg-white border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-            <button 
-              onClick={() => {
+            <a 
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
                 if (onNavigateHome) onNavigateHome();
                 else window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
               className="hover:text-blue-600 transition-colors cursor-pointer"
             >
               Home
-            </button>
+            </a>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <span className="text-slate-900 font-bold">Blog & Documentation</span>
           </div>

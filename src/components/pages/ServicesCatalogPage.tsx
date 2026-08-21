@@ -265,7 +265,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
 
                   <div className="grid grid-cols-2 gap-2">
                     <a
-                      href={`?view=service-detail&service=${encodeURIComponent(service.id)}`}
+                      href={`/services/${encodeURIComponent(service.id)}`}
                       onClick={(e) => {
                         e.preventDefault();
                         onSelectServicePage(service.id);
@@ -340,7 +340,7 @@ export const ServicesCatalogPage: React.FC<ServicesCatalogPageProps> = ({
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       <a
-                        href={`?view=service-detail&service=${encodeURIComponent(svc.id)}`}
+                        href={`/services/${encodeURIComponent(svc.id)}`}
                         onClick={(e) => {
                           e.preventDefault();
                           onSelectServicePage(svc.id);

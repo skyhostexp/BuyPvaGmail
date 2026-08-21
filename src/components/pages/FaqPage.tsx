@@ -49,15 +49,17 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigateToContact, onNavigat
       {/* Breadcrumb Header */}
       <div className="bg-white border-b border-slate-200 py-3 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs font-semibold text-slate-500">
-          <button 
-            onClick={() => {
+          <a 
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
               if (onNavigateHome) onNavigateHome();
               else window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="hover:text-blue-600 transition-colors cursor-pointer"
           >
             Home
-          </button>
+          </a>
           <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
           <span className="text-slate-900 font-bold">Frequently Asked Questions</span>
         </div>
@@ -188,12 +190,16 @@ export const FaqPage: React.FC<FaqPageProps> = ({ onNavigateToContact, onNavigat
               <span>WhatsApp: +1 (253) 408-0049</span>
             </a>
 
-            <button
-              onClick={onNavigateToContact}
-              className="w-full sm:w-auto px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
+            <a
+              href="/contact"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigateToContact();
+              }}
+              className="w-full sm:w-auto px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center justify-center"
             >
               <span>Contact Page</span>
-            </button>
+            </a>
           </div>
         </div>
       </section>
