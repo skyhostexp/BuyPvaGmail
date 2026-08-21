@@ -86,13 +86,6 @@ export const Footer: React.FC<FooterProps> = ({
                 <ShieldCheck className="w-3.5 h-3.5" />
                 Track Order
               </button>
-              <button
-                onClick={onOpenCheckerModal}
-                className="bg-slate-900 hover:bg-slate-800 text-emerald-400 px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-800 transition-colors flex items-center gap-1.5 cursor-pointer"
-              >
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                Format Inspector
-              </button>
             </div>
           </div>
 

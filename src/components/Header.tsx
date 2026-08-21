@@ -240,7 +240,7 @@ export const Header: React.FC<HeaderProps> = ({
               </a>
               <span className="text-slate-600">|</span>
               <a href="https://wa.me/12534080049" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline font-semibold flex items-center gap-1">
-                WhatsApp: +1 (253) 408-0049
+                +1 (253) 408-0049
               </a>
             </div>
           </div>
