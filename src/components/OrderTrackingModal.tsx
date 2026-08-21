@@ -17,7 +17,8 @@ import {
   Mail,
   Coins
 } from 'lucide-react';
-import { OrderDetails } from '../types';
+import { OrderDetails, AdminOrder } from '../types';
+import { getStoredOrders } from '../utils/orderStorage';
 
 interface OrderTrackingModalProps {
   isOpen: boolean;
@@ -69,14 +70,20 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
     setTimeout(() => {
       setIsSearching(false);
 
-      // Check if user had created a local order in localStorage
-      let foundLocalOrder: OrderDetails | null = null;
+      // Check if order exists in stored orders or local storage
+      let foundStoredOrder: AdminOrder | null = null;
       try {
-        const savedRaw = localStorage.getItem('buypvagmail_last_order');
-        if (savedRaw) {
-          const parsed: OrderDetails = JSON.parse(savedRaw);
-          if (parsed.orderId.toUpperCase() === query) {
-            foundLocalOrder = parsed;
+        const storedList = getStoredOrders();
+        const found = storedList.find((o) => o.orderId.toUpperCase() === query);
+        if (found) {
+          foundStoredOrder = found;
+        } else {
+          const savedRaw = localStorage.getItem('buypvagmail_last_order');
+          if (savedRaw) {
+            const parsed: OrderDetails = JSON.parse(savedRaw);
+            if (parsed.orderId.toUpperCase() === query) {
+              foundStoredOrder = { ...parsed, createdAtTimestamp: Date.now() };
+            }
           }
         }
       } catch (err) {
@@ -84,29 +91,40 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
       }
 
       const orderNumberDigits = query.replace(/\D/g, '') || '748291';
-      const cleanOrderId = query.startsWith('BPG-') ? query : `BPG-${orderNumberDigits.slice(0, 6) || '748291'}`;
+      const cleanOrderId = foundStoredOrder ? foundStoredOrder.orderId : (query.startsWith('BPG-') ? query : `BPG-${orderNumberDigits.slice(0, 6) || '748291'}`);
 
-      // Generate accurate sample accounts
-      const sampleList = [
-        `us.outreach.agency${orderNumberDigits.slice(0, 3)}@gmail.com:PassSecure#982:backup.recovery01@outlook.com:JBSWY3DPEHPK3PXP:Mozilla/5.0 (Windows NT 10.0; Win64; x64):{"SID":"CC-ok9281","HSID":"HS-9821"}`,
-        `us.scale.lead${orderNumberDigits.slice(3, 6)}@gmail.com:K98!vxM920@:backup.recovery02@outlook.com:HXDMVJ5W4GZ7QPYE:Mozilla/5.0 (Windows NT 10.0; Win64; x64):{"SID":"CC-ok9282","HSID":"HS-9822"}`
-      ];
+      // Generate accurate sample accounts or use delivered accounts from store
+      const sampleList = (foundStoredOrder?.deliveredAccounts && foundStoredOrder.deliveredAccounts.length > 0)
+        ? foundStoredOrder.deliveredAccounts
+        : [
+            `us.outreach.agency${orderNumberDigits.slice(0, 3)}@gmail.com:PassSecure#982:backup.recovery01@outlook.com:JBSWY3DPEHPK3PXP:Mozilla/5.0 (Windows NT 10.0; Win64; x64):{"SID":"CC-ok9281","HSID":"HS-9821"}`,
+            `us.scale.lead${orderNumberDigits.slice(3, 6)}@gmail.com:K98!vxM920@:backup.recovery02@outlook.com:HXDMVJ5W4GZ7QPYE:Mozilla/5.0 (Windows NT 10.0; Win64; x64):{"SID":"CC-ok9282","HSID":"HS-9822"}`
+          ];
 
       const deliveryDate = new Date();
       const warrantyDate = new Date();
       warrantyDate.setDate(deliveryDate.getDate() + 7);
 
+      const statusMap: 'delivered' | 'processing' | 'verifying_payment' = 
+        foundStoredOrder?.status === 'delivered' || foundStoredOrder?.status === 'completed'
+          ? 'delivered'
+          : foundStoredOrder?.status === 'processing'
+          ? 'processing'
+          : 'delivered';
+
+      const progressStep = statusMap === 'delivered' ? 4 : statusMap === 'processing' ? 3 : 2;
+
       setSearchedOrder({
         orderId: cleanOrderId,
-        packageTitle: foundLocalOrder ? foundLocalOrder.items[0]?.product.name : 'USA Aged (2021) PVA Gmail Accounts',
-        quantity: foundLocalOrder ? foundLocalOrder.items[0]?.quantity : 25,
-        deliveryEmail: foundLocalOrder ? foundLocalOrder.email : 'buyer.agency@gmail.com',
-        date: deliveryDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        status: 'delivered',
-        progressStep: 4,
-        cryptoNetwork: foundLocalOrder?.cryptoCurrency || 'USDT (TRC20)',
-        txHash: foundLocalOrder?.txHash || '0x4f8a9b2c7e1d5a8f9c0e3b6a2d7f8c1e4a7b9c0e3d2f1a6b8c9d0e1f2a3b4c5d',
-        totalUSD: foundLocalOrder ? foundLocalOrder.totalAmount : 75.00,
+        packageTitle: foundStoredOrder ? foundStoredOrder.items[0]?.product?.name || 'PVA Gmail Accounts' : 'USA Aged (2021) PVA Gmail Accounts',
+        quantity: foundStoredOrder ? foundStoredOrder.items[0]?.quantity : 25,
+        deliveryEmail: foundStoredOrder ? foundStoredOrder.email : 'buyer.agency@gmail.com',
+        date: foundStoredOrder?.date || deliveryDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        status: statusMap,
+        progressStep: progressStep,
+        cryptoNetwork: foundStoredOrder?.cryptoCurrency || 'USDT (TRC20)',
+        txHash: foundStoredOrder?.txHash || '0x4f8a9b2c7e1d5a8f9c0e3b6a2d7f8c1e4a7b9c0e3d2f1a6b8c9d0e1f2a3b4c5d',
+        totalUSD: foundStoredOrder ? foundStoredOrder.totalAmount : 75.00,
         accounts: sampleList,
         warrantyValidUntil: warrantyDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
       });

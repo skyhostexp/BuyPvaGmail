@@ -24,9 +24,11 @@ import { AboutUsPage } from './components/pages/AboutUsPage';
 import { BlogPage } from './components/pages/BlogPage';
 import { FaqPage } from './components/pages/FaqPage';
 import { ContactPage } from './components/pages/ContactPage';
+import { PowerhouseAdminPage } from './components/admin/PowerhouseAdminPage';
 
 import { ServiceProduct, CartItem, OrderDetails } from './types';
 import { servicesData, detailedServicesData } from './data/servicesData';
+import { addOrderToStore } from './utils/orderStorage';
 import { Check, ShoppingBag } from 'lucide-react';
 
 export type AppView = 
@@ -37,7 +39,8 @@ export type AppView =
   | 'about' 
   | 'blog' 
   | 'faq' 
-  | 'contact';
+  | 'contact'
+  | 'powerhouse';
 
 export default function App() {
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -168,6 +171,19 @@ export default function App() {
           return;
         }
 
+        // PowerHouse Secret Admin Portal (/powerhouse)
+        if (
+          pathname === '/powerhouse' ||
+          pathname === '/admin' ||
+          viewParam === 'powerhouse' ||
+          viewParam === 'admin' ||
+          rawHash === 'powerhouse'
+        ) {
+          setCurrentView('powerhouse');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
         // Default or Home (/)
         setCurrentView('home');
         setActiveSection('home');
@@ -230,6 +246,9 @@ export default function App() {
       targetUrl = '/contact';
       setCurrentView('contact');
       setActiveSection('contact');
+    } else if (view === 'powerhouse') {
+      targetUrl = '/powerhouse';
+      setCurrentView('powerhouse');
     } else {
       targetUrl = '/';
       setCurrentView('home');
@@ -329,6 +348,15 @@ export default function App() {
     }
     setIsOrderModalOpen(true);
   };
+
+  // If current view is Powerhouse Admin, render the dedicated secret admin panel without public headers/footers
+  if (currentView === 'powerhouse') {
+    return (
+      <PowerhouseAdminPage 
+        onNavigateHome={() => navigateToPage('home')} 
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-slate-900 font-sans antialiased selection:bg-blue-600 selection:text-white">
@@ -488,6 +516,7 @@ export default function App() {
           setCart([]);
           try {
             localStorage.setItem('buypvagmail_last_order', JSON.stringify(order));
+            addOrderToStore(order);
           } catch (e) {
             // ignore
           }

@@ -77,11 +77,22 @@ export interface OrderDetails {
   orderId: string;
   items: CartItem[];
   email: string;
+  customerName?: string;
   telegramOrSkype?: string;
-  paymentMethod: 'crypto';
+  whatsapp?: string;
+  country?: string;
+  paymentMethod: 'crypto' | 'custom';
   cryptoCurrency: string;
   txHash?: string;
   totalAmount: number;
   date: string;
-  status: 'completed' | 'processing' | 'delivered';
+  status: 'completed' | 'processing' | 'delivered' | 'cancelled';
+  paymentStatus?: 'pending' | 'confirmed' | 'rejected';
+  orderNotes?: string;
+  deliveredAccounts?: string[];
+  internalNotes?: string;
+}
+
+export interface AdminOrder extends OrderDetails {
+  createdAtTimestamp: number;
 }

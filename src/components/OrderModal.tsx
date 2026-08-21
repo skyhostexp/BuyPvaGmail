@@ -433,13 +433,24 @@ export const OrderModal: React.FC<OrderModalProps> = ({
           }
         ],
         email: deliveryEmail,
-        telegramOrSkype: telegramUsername || whatsappNumber || fullName,
+        customerName: fullName,
+        telegramOrSkype: telegramUsername,
+        whatsapp: whatsappNumber,
+        country: country,
+        orderNotes: orderNotes,
         paymentMethod: 'crypto',
         cryptoCurrency: activeCrypto.symbol,
         txHash: txHash,
         totalAmount: currentPricing.totalPrice,
-        date: new Date().toLocaleDateString(),
-        status: 'delivered'
+        date: new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }),
+        status: 'delivered',
+        paymentStatus: 'confirmed'
       };
 
       setCompletedOrder(order);
