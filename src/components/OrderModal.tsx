@@ -24,6 +24,7 @@ import {
 import confetti from 'canvas-confetti';
 import { ServiceProduct, CartItem, OrderDetails } from '../types';
 import { detailedServicesData } from '../data/servicesData';
+import { addOrderToStore } from '../utils/orderStorage';
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -454,6 +455,11 @@ export const OrderModal: React.FC<OrderModalProps> = ({
       };
 
       setCompletedOrder(order);
+      try {
+        addOrderToStore(order);
+      } catch (e) {
+        // ignore
+      }
       if (onOrderSuccess) onOrderSuccess(order);
 
       try {

@@ -20,19 +20,22 @@ export const getStoredOrders = (): AdminOrder[] => {
 export const saveStoredOrders = (orders: AdminOrder[]): void => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('buypva_orders_updated'));
+    }
   } catch (err) {
     console.error('Error saving orders:', err);
   }
 };
 
-export const addOrderToStore = (order: OrderDetails): AdminOrder => {
+export const addOrderToStore = (order: OrderDetails | AdminOrder): AdminOrder => {
   const currentOrders = getStoredOrders();
   
   const adminOrder: AdminOrder = {
     ...order,
-    status: order.status || 'processing',
+    status: order.status || 'delivered',
     paymentStatus: order.paymentStatus || 'confirmed',
-    createdAtTimestamp: Date.now()
+    createdAtTimestamp: (order as AdminOrder).createdAtTimestamp || Date.now()
   };
 
   // Filter out duplicate orderId if exists
@@ -59,7 +62,14 @@ export const deleteStoredOrder = (orderId: string): void => {
 };
 
 export const clearAllStoredOrders = (): void => {
-  localStorage.removeItem(STORAGE_KEY);
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('buypva_orders_updated'));
+    }
+  } catch (err) {
+    console.error('Error clearing orders:', err);
+  }
 };
 
 export const exportOrdersToCsv = (orders: AdminOrder[]): string => {
@@ -78,13 +88,15 @@ export const exportOrdersToCsv = (orders: AdminOrder[]): string => {
     'TxID / Hash',
     'Payment Status',
     'Fulfillment Status',
+    'Delivered Accounts Count',
     'Order Notes'
   ];
 
   const rows = orders.map((o) => {
-    const productsStr = o.items.map((i) => `${i.product?.name || 'Product'} (x${i.quantity})`).join('; ');
-    const totalQty = o.items.reduce((acc, i) => acc + (i.quantity || 0), 0);
+    const productsStr = (o.items || []).map((i) => `${i.product?.name || 'Product'} (x${i.quantity})`).join('; ');
+    const totalQty = (o.items || []).reduce((acc, i) => acc + (i.quantity || 0), 0);
     const safeStr = (val?: string) => `"${(val || '').replace(/"/g, '""')}"`;
+    const accountsCount = (o.deliveredAccounts || []).length;
 
     return [
       safeStr(o.orderId),
@@ -101,9 +113,11 @@ export const exportOrdersToCsv = (orders: AdminOrder[]): string => {
       safeStr(o.txHash),
       safeStr(o.paymentStatus || 'confirmed'),
       safeStr(o.status),
+      accountsCount,
       safeStr(o.orderNotes)
     ].join(',');
   });
 
   return [headers.join(','), ...rows].join('\n');
 };
+

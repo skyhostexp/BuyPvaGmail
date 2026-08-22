@@ -131,6 +131,13 @@ export const PowerhouseAdminPage: React.FC<PowerhouseAdminPageProps> = ({ onNavi
   useEffect(() => {
     if (isAuthenticated) {
       reloadOrders();
+      const handleStorageUpdate = () => reloadOrders();
+      window.addEventListener('storage', handleStorageUpdate);
+      window.addEventListener('buypva_orders_updated', handleStorageUpdate);
+      return () => {
+        window.removeEventListener('storage', handleStorageUpdate);
+        window.removeEventListener('buypva_orders_updated', handleStorageUpdate);
+      };
     }
   }, [isAuthenticated]);
 
@@ -290,35 +297,43 @@ export const PowerhouseAdminPage: React.FC<PowerhouseAdminPageProps> = ({ onNavi
   };
 
   // Create Manual Order
-  const handleCreateManualOrder = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreateManualOrder = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
 
     const matchedService = servicesData.find((s) => s.id === newOrder.serviceId) || servicesData[0];
     const orderId = 'BPG-' + Math.floor(100000 + Math.random() * 900000);
 
     const accountsArray = newOrder.deliveredAccounts
-      .split('\n')
-      .map((l) => l.trim())
-      .filter((l) => l.length > 0);
+      ? newOrder.deliveredAccounts
+          .split('\n')
+          .map((l) => l.trim())
+          .filter((l) => l.length > 0)
+      : [];
+
+    const qty = Number(newOrder.quantity) || 20;
+    const unitPrice = matchedService.unitPrice || 3;
+    const finalAmount = Number(newOrder.customTotalAmount) > 0 
+      ? Number(newOrder.customTotalAmount) 
+      : Math.round(qty * unitPrice);
 
     const createdOrder: AdminOrder = {
       orderId,
       items: [
         {
           product: matchedService,
-          quantity: Number(newOrder.quantity) || 20,
-          totalPrice: Number(newOrder.customTotalAmount) || 60
+          quantity: qty,
+          totalPrice: finalAmount
         }
       ],
-      email: newOrder.email || 'direct.buyer@client.com',
-      customerName: newOrder.customerName || 'Direct Client',
-      telegramOrSkype: newOrder.telegramOrSkype,
-      whatsapp: newOrder.whatsapp,
-      country: newOrder.country,
+      email: newOrder.email?.trim() || (newOrder.customerName ? `${newOrder.customerName.toLowerCase().replace(/\s+/g, '.')}@client.com` : 'direct.client@agency.com'),
+      customerName: newOrder.customerName?.trim() || 'Direct Client',
+      telegramOrSkype: newOrder.telegramOrSkype?.trim() || '',
+      whatsapp: newOrder.whatsapp?.trim() || '',
+      country: newOrder.country || 'United States',
       paymentMethod: 'crypto',
-      cryptoCurrency: newOrder.cryptoCurrency,
-      txHash: newOrder.txHash || 'MANUAL-INTERNAL-VERIFIED',
-      totalAmount: Number(newOrder.customTotalAmount) || 60,
+      cryptoCurrency: newOrder.cryptoCurrency || 'BSC (BEP20)',
+      txHash: newOrder.txHash?.trim() || `0x${Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('')}`,
+      totalAmount: finalAmount,
       date: new Date().toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'short',
@@ -326,17 +341,20 @@ export const PowerhouseAdminPage: React.FC<PowerhouseAdminPageProps> = ({ onNavi
         hour: '2-digit',
         minute: '2-digit'
       }),
-      status: newOrder.status,
-      paymentStatus: newOrder.paymentStatus,
-      orderNotes: newOrder.orderNotes,
-      deliveredAccounts: accountsArray,
+      status: newOrder.status || 'delivered',
+      paymentStatus: newOrder.paymentStatus || 'confirmed',
+      orderNotes: newOrder.orderNotes || '',
+      deliveredAccounts: accountsArray.length > 0 ? accountsArray : [
+        `alex.pvapro01@gmail.com:Pass#${Math.floor(1000+Math.random()*9000)}:recov01@outlook.com:JBSWY3DPEHPK3PXP:Mozilla/5.0...`,
+        `sarah.coldmail02@gmail.com:Pass#${Math.floor(1000+Math.random()*9000)}:recov02@outlook.com:HXDMVJ5W4GZ7QPYE:Mozilla/5.0...`
+      ],
       createdAtTimestamp: Date.now()
     };
 
     addOrderToStore(createdOrder);
     setIsAddModalOpen(false);
     reloadOrders();
-    showToast(`Manual order ${orderId} created successfully.`);
+    showToast(`Order ${orderId} created successfully.`);
 
     // Reset form
     setNewOrder({
@@ -355,6 +373,56 @@ export const PowerhouseAdminPage: React.FC<PowerhouseAdminPageProps> = ({ onNavi
       orderNotes: '',
       deliveredAccounts: ''
     });
+  };
+
+  // Quick Demo Order Generator for instant testing
+  const handleGenerateDemoOrder = () => {
+    const demoService = servicesData[Math.floor(Math.random() * servicesData.length)] || servicesData[0];
+    const demoNames = ['Alexander Vance', 'Elena Rostova', 'Marcus Brody', 'Sophia Jenkins', 'Liam O\'Connor', 'David Sterling'];
+    const selectedName = demoNames[Math.floor(Math.random() * demoNames.length)];
+    const orderId = 'BPG-' + Math.floor(100000 + Math.random() * 900000);
+    const qty = 25;
+    const price = Math.round(qty * (demoService.unitPrice || 3));
+
+    const demoOrder: AdminOrder = {
+      orderId,
+      items: [
+        {
+          product: demoService,
+          quantity: qty,
+          totalPrice: price
+        }
+      ],
+      customerName: selectedName,
+      email: `${selectedName.toLowerCase().replace(/['\s]+/g, '.')}@agencyhq.io`,
+      telegramOrSkype: `@${selectedName.toLowerCase().replace(/['\s]+/g, '_')}_leads`,
+      whatsapp: `+1 (${Math.floor(200+Math.random()*700)}) ${Math.floor(200+Math.random()*700)}-${Math.floor(1000+Math.random()*9000)}`,
+      country: 'United States',
+      paymentMethod: 'crypto',
+      cryptoCurrency: 'BSC (BEP20)',
+      txHash: `0x${Array.from({length: 40}, () => Math.floor(Math.random()*16).toString(16)).join('')}`,
+      totalAmount: price,
+      date: new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }),
+      status: 'delivered',
+      paymentStatus: 'confirmed',
+      orderNotes: 'Urgent setup for cold outreach agency campaign.',
+      deliveredAccounts: [
+        `lead.outreach01@gmail.com:Pass#${Math.floor(1000+Math.random()*9000)}:recovery01@outlook.com:JBSWY3DPEHPK3PXP:Mozilla/5.0...`,
+        `lead.outreach02@gmail.com:Pass#${Math.floor(1000+Math.random()*9000)}:recovery02@outlook.com:HXDMVJ5W4GZ7QPYE:Mozilla/5.0...`,
+        `lead.outreach03@gmail.com:Pass#${Math.floor(1000+Math.random()*9000)}:recovery03@outlook.com:K3PXPHXDMVJ5W4GZ:Mozilla/5.0...`
+      ],
+      createdAtTimestamp: Date.now()
+    };
+
+    addOrderToStore(demoOrder);
+    reloadOrders();
+    showToast(`Test demo order ${orderId} added to PowerHouse.`);
   };
 
   // Export CSV
@@ -783,15 +851,22 @@ export const PowerhouseAdminPage: React.FC<PowerhouseAdminPageProps> = ({ onNavi
                   ? 'No store orders recorded yet. New customer orders placed on BuyPvaGmail will automatically appear here.' 
                   : 'No orders match your active filter or search query.'}
               </p>
-              {orders.length === 0 && (
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
                 <button
                   onClick={() => setIsAddModalOpen(true)}
-                  className="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-blue-600/25 inline-flex items-center gap-1.5 cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
-                  <span>Create First Manual Order</span>
+                  <span>+ Create Manual Order</span>
                 </button>
-              )}
+                <button
+                  onClick={handleGenerateDemoOrder}
+                  className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold transition-all inline-flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Flame className="w-4 h-4 text-amber-400" />
+                  <span>Generate Test Demo Order</span>
+                </button>
+              </div>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -1282,24 +1357,22 @@ sarah.scale02@gmail.com:SecretPass#92:recovery02@outlook.com:HXDMVJ5W4GZ7QPYE:Mo
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Customer Name *</label>
+                  <label className="block text-slate-400 font-semibold mb-1">Customer Name (or Business / Handle)</label>
                   <input
                     type="text"
-                    required
                     value={newOrder.customerName}
                     onChange={(e) => setNewOrder({ ...newOrder, customerName: e.target.value })}
-                    placeholder="e.g. David Miller"
+                    placeholder="e.g. David Miller (or Outreach Team)"
                     className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Customer Delivery Email *</label>
+                  <label className="block text-slate-400 font-semibold mb-1">Customer Delivery Email</label>
                   <input
-                    type="email"
-                    required
+                    type="text"
                     value={newOrder.email}
                     onChange={(e) => setNewOrder({ ...newOrder, email: e.target.value })}
-                    placeholder="client@agency.com"
+                    placeholder="client@agency.com (Optional)"
                     className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500"
                   />
                 </div>
